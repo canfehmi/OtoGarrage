@@ -1,39 +1,39 @@
 {
   "Routes": [
     {
-      "DownstreamPathTemplate": "/api/Company/{everything}",
+      "DownstreamPathTemplate": "/api/auth/{everything}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5001
+          "Host": "authservice",
+          "Port": 80
         }
       ],
-      "UpstreamPathTemplate": "/Company/{everything}",
+      "UpstreamPathTemplate": "/auth/{everything}",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
     },
     {
-      "DownstreamPathTemplate": "/api/Booking/{everything}",
+      "DownstreamPathTemplate": "/api/company/{everything}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5003
+          "Host": "companyservice",
+          "Port": 80
         }
       ],
-      "UpstreamPathTemplate": "/Booking/{everything}",
+      "UpstreamPathTemplate": "/company/{everything}",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
     },
     {
-      "DownstreamPathTemplate": "/api/Auth/{everything}",
-      "DownstreamScheme": "http",
+      "DownstreamPathTemplate": "/api/booking/{everything}",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5002
+          "Host": "bookingservice",
+          "Port": 80
         }
       ],
-      "UpstreamPathTemplate": "/Auth/{everything}",
+      "UpstreamPathTemplate": "/booking/{everything}",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
     }
   ],

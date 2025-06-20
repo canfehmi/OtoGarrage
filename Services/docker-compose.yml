@@ -1,0 +1,33 @@
+
+services:
+  authservice:
+    build:
+      context: .
+      dockerfile: AuthService/Dockerfile
+    ports:
+      - "5001:80"
+
+  companyservice:
+    build:
+      context: .
+      dockerfile: CompanyService/Dockerfile
+    ports:
+      - "5002:80"
+
+  bookingservice:
+    build:
+      context: .
+      dockerfile: BookingService/Dockerfile
+    ports:
+      - "5003:80"
+
+  gatewayservice:
+    build:
+      context: .
+      dockerfile: GatewayService/Dockerfile
+    ports:
+      - "8000:80"
+    depends_on:
+      - authservice
+      - companyservice
+      - bookingservice

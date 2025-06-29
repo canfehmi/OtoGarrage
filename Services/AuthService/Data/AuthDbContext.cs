@@ -6,7 +6,7 @@ namespace AuthService.Data
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=host.docker.internal,1433;User ID=sa;Password=Udemy#123;initial Catalog=CompanyDb;integrated Security=true;TrustServerCertificate=True;");
+            optionsBuilder.UseSqlServer("Server=mssql;User ID=sa;Password=YourStrong!Passw0rd;initial Catalog=CompanyDb;integrated Security=true;TrustServerCertificate=True;");
         }
         public DbSet<Entities.User> Users { get; set; }
     }

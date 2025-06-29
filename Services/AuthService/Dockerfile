@@ -1,25 +1,24 @@
-# Base image
+# Runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
-EXPOSE 80
+EXPOSE 5000
+ENV ASPNETCORE_URLS=https://+:5000
 
 # Build image
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-
-# Projeyi kopyala
-COPY ["AuthService/AuthService.csproj", "AuthService/"]
-# Gerekirse diðer projelere referans da eklenir
-RUN dotnet restore "AuthService/AuthService.csproj"
-
+COPY ["Services/AuthService/AuthService.csproj", "Services/AuthService/"]
+RUN dotnet restore "./Services/AuthService/AuthService.csproj"
 COPY . .
-WORKDIR "/src/AuthService"
-RUN dotnet build "AuthService.csproj" -c Release -o /app/build
+WORKDIR "/src/Services/AuthService"
+RUN dotnet build "./AuthService.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
+# Publish image
 FROM build AS publish
-RUN dotnet publish "AuthService.csproj" -c Release -o /app/publish
+RUN dotnet publish "./AuthService.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
-# Final image
+# Final runtime stage
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .

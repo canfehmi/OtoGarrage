@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: mssql
+    environment:
+      SA_PASSWORD: "YourStrong!Passw0rd"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    volumes:
+      - mssqldata:/var/opt/mssql
+    restart: always
+
+  authservice:
+    build:
+      context: .
+      dockerfile: Services/AuthService/Dockerfile
+    ports:
+      - "5001:5000"
+    depends_on:
+      - mssql
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=mssql;Database=CompanyDb;User Id=sa;Password=YourStrong!Passw0rd
+    restart: always
+
+  companyservice:
+    build:
+      context: .
+      dockerfile: Services/CompanyService/Dockerfile
+    ports:
+      - "5002:5000"
+    depends_on:
+      - mssql
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=mssql;Database=CompanyDb;User Id=sa;Password=YourStrong!Passw0rd
+    restart: always
+
+  bookingservice:
+    build:
+      context: .
+      dockerfile: Services/BookingService/Dockerfile
+    ports:
+      - "5003:5000"
+    depends_on:
+      - mssql
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=mssql;Database=CompanyDb;User Id=sa;Password=YourStrong!Passw0rd
+    restart: always
+
+  gatewayservice:
+    build:
+      context: .
+      dockerfile: Services/GatewayService/Dockerfile
+    ports:
+      - "5000:5000"
+    depends_on:
+      - authservice
+      - companyservice
+      - bookingservice
+    restart: always
+
+volumes:
+  mssqldata:

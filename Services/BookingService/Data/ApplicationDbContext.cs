@@ -7,7 +7,7 @@ namespace BookingService.Data
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=mssql;User ID=sa;Password=YourStrong!Passw0rd;initial Catalog=CompanyDb;integrated Security=true;TrustServerCertificate=True;");
+            optionsBuilder.UseSqlServer("Server=mssql;User ID=sa;Password=YourStrong!Passw0rd;initial Catalog=CompanyDb;TrustServerCertificate=True;");
         }
         public DbSet<Booking> Bookings { get; set; }
     }

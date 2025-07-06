@@ -23,6 +23,8 @@ services:
       - mssql
     environment:
       - ConnectionStrings__DefaultConnection=Server=mssql;Database=CompanyDb;User Id=sa;Password=YourStrong!Passw0rd
+      - ASPNETCORE_URLS=http://+:5000
+
     restart: always
 
   companyservice:
@@ -35,6 +37,8 @@ services:
       - mssql
     environment:
       - ConnectionStrings__DefaultConnection=Server=mssql;Database=CompanyDb;User Id=sa;Password=YourStrong!Passw0rd
+      - ASPNETCORE_URLS=http://+:5000
+
     restart: always
 
   bookingservice:
@@ -47,19 +51,24 @@ services:
       - mssql
     environment:
       - ConnectionStrings__DefaultConnection=Server=mssql;Database=CompanyDb;User Id=sa;Password=YourStrong!Passw0rd
+      - ASPNETCORE_URLS=http://+:5000
+
     restart: always
 
   gatewayservice:
     build:
-      context: .
-      dockerfile: Services/GatewayService/Dockerfile
+        context: .
+        dockerfile: Services/GatewayService/Dockerfile
     ports:
-      - "5000:5000"
+        - "5005:5000"
     depends_on:
-      - authservice
-      - companyservice
-      - bookingservice
+        - authservice
+        - companyservice
+        - bookingservice
+    environment:
+        - ASPNETCORE_URLS=http://+:5000
     restart: always
+
 
 volumes:
   mssqldata:

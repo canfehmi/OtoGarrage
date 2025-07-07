@@ -5,9 +5,9 @@ namespace CompanyService.Data
 {
     public class ApplicationDbContext:DbContext
     {
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+            : base(options)
         {
-            optionsBuilder.UseSqlServer("Server=mssql;User ID=sa;Password=YourStrong!Passw0rd;initial Catalog=CompanyDb;TrustServerCertificate=True;");
         }
         public DbSet<Company> Companies { get; set; }
         public DbSet<Model> Models { get; set; }

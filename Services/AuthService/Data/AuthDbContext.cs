@@ -4,9 +4,9 @@ namespace AuthService.Data
 {
     public class AuthDbContext : DbContext
     {
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public AuthDbContext(DbContextOptions<AuthDbContext> options)
+            : base(options)
         {
-            optionsBuilder.UseSqlServer("Server=mssql;User ID=sa;Password=YourStrong!Passw0rd;initial Catalog=CompanyDb;TrustServerCertificate=True;");
         }
         public DbSet<Entities.User> Users { get; set; }
     }
